@@ -3,6 +3,7 @@ buildscript {
 		springBootVersion = "3.3.5"
 		springDependencyManagementVersion = "1.1.6"
 		springdocVersion = "2.6.0"
+		mapstructVersion = "1.6.0"
 	}
 }
 
@@ -25,6 +26,15 @@ configurations {
 	}
 }
 
+compileJava {
+	options.compilerArgs += [
+			'-Amapstruct.verbose=false',
+			'-Amapstruct.defaultComponentModel=spring',
+			'-Amapstruct.defaultInjectionStrategy=constructor',
+			'-Amapstruct.unmappedTargetPolicy=ERROR'
+	]
+}
+
 repositories {
 	mavenCentral()
 }
@@ -32,12 +42,16 @@ repositories {
 dependencies {
 	implementation "org.springframework.boot:spring-boot-starter-data-jpa"
 	implementation "org.springframework.boot:spring-boot-starter-web"
+	implementation "org.springframework.boot:spring-boot-starter-validation"
 	implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springdocVersion}"
 
 	implementation "org.liquibase:liquibase-core"
 
 	compileOnly "org.projectlombok:lombok"
 	annotationProcessor "org.projectlombok:lombok"
+
+	implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+	annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
 	runtimeOnly "com.h2database:h2"
 
