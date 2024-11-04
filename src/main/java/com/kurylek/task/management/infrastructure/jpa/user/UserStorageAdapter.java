@@ -8,13 +8,20 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserStorage implements UserStoragePort {
+public class UserStorageAdapter implements UserStoragePort {
 
     private final UserRepository userRepository;
     private final UserJpaMapper userMapper;
+
+    @Override
+    public Optional<User> getUserById(Long userId) {
+        return userRepository.findById(userId)
+                .map(userMapper::mapToModel);
+    }
 
     @Override
     public List<User> getFilteredUsers(String firstName, String lastName, String email) {

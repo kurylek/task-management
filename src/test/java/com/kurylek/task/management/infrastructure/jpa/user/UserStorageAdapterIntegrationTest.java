@@ -11,7 +11,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
-class UserStorageIntegrationTest {
+class UserStorageAdapterIntegrationTest {
 
     @Autowired
     private UserRepository userRepository;
@@ -19,11 +19,11 @@ class UserStorageIntegrationTest {
     @Spy
     private UserJpaMapper userMapper = new UserJpaMapperImpl();
 
-    private UserStorage userStorage;
+    private UserStorageAdapter userStorage;
 
     @BeforeEach
     void setUp() {
-        userStorage = new UserStorage(userRepository, userMapper);
+        userStorage = new UserStorageAdapter(userRepository, userMapper);
     }
 
     @Test

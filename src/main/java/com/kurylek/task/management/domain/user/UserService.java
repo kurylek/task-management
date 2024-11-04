@@ -1,9 +1,11 @@
 package com.kurylek.task.management.domain.user;
 
+import com.kurylek.task.management.domain.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +25,12 @@ public class UserService implements UserApiPort {
 
     @Override
     public void deleteUser(Long userId) {
-        userStoragePort.deleteUserById(userId);
+        Optional<User> userToDelete = userStoragePort.getUserById(userId);
+
+        if (userToDelete.isPresent()) {
+            userStoragePort.deleteUserById(userId);
+        } else {
+            throw new NotFoundException(String.format("User with id %s not found", userId));
+        }
     }
 }
