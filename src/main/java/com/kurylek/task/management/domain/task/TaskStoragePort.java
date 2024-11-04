@@ -9,7 +9,7 @@ public interface TaskStoragePort {
 
     List<Task> getFilteredTasks(String title, String description, TaskStatus status);
 
-    Task createTask(Task task);
+    Task saveTask(Task task);
 
     void deleteTaskById(Long taskId);
 }

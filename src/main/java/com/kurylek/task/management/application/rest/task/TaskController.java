@@ -36,4 +36,28 @@ public class TaskController {
         taskApiPort.deleteTask(taskId);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/{taskId}")
+    public ResponseEntity<TaskDto> editTask(
+            @PathVariable Long taskId,
+            @Valid @RequestBody TaskDto taskDto) {
+        Task updatedTask = taskApiPort.updateTask(taskId, taskMapper.mapToModel(taskDto));
+        return ResponseEntity.ok(taskMapper.mapToDto(updatedTask));
+    }
+
+    @PatchMapping("/change-status/{taskId}")
+    public ResponseEntity<TaskDto> changeTaskStatus(
+            @PathVariable Long taskId,
+            @RequestParam TaskStatus status) {
+        Task updatedTask = taskApiPort.updateTaskStatus(taskId, status);
+        return ResponseEntity.ok(taskMapper.mapToDto(updatedTask));
+    }
+
+    @PostMapping("/add-user/{taskId}/{userId}")
+    public ResponseEntity<TaskDto> addUserToTask(
+            @PathVariable Long taskId,
+            @PathVariable Long userId) {
+        Task updatedTask = taskApiPort.addUserToTask(taskId, userId);
+        return ResponseEntity.ok(taskMapper.mapToDto(updatedTask));
+    }
 }

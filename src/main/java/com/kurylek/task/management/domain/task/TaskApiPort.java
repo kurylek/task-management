@@ -9,4 +9,10 @@ public interface TaskApiPort {
     Task createTask(Task task);
 
     void deleteTask(Long taskId);
+
+    Task updateTask(Long taskId, Task task);
+
+    Task updateTaskStatus(Long taskId, TaskStatus status);
+
+    Task addUserToTask(Long taskId, Long userId);
 }

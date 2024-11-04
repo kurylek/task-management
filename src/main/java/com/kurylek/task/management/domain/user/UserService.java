@@ -14,6 +14,17 @@ public class UserService implements UserApiPort {
     private final UserStoragePort userStoragePort;
 
     @Override
+    public User getUserById(Long userId) {
+        Optional<User> user = userStoragePort.getUserById(userId);
+
+        if (user.isPresent()) {
+            return user.get();
+        } else {
+            throw new NotFoundException(String.format("User with id %s not found", userId));
+        }
+    }
+
+    @Override
     public List<User> getFilteredUsers(String firstName, String lastName, String email) {
         return userStoragePort.getFilteredUsers(firstName, lastName, email);
     }
@@ -25,12 +36,7 @@ public class UserService implements UserApiPort {
 
     @Override
     public void deleteUser(Long userId) {
-        Optional<User> userToDelete = userStoragePort.getUserById(userId);
-
-        if (userToDelete.isPresent()) {
-            userStoragePort.deleteUserById(userId);
-        } else {
-            throw new NotFoundException(String.format("User with id %s not found", userId));
-        }
+        User userToDelete = getUserById(userId);
+        userStoragePort.deleteUserById(userToDelete.getId());
     }
 }

@@ -32,7 +32,7 @@ public class TaskStorageAdapter implements TaskStoragePort {
     }
 
     @Override
-    public Task createTask(Task task) {
+    public Task saveTask(Task task) {
         return taskMapper.mapToModel(
                 taskRepository.save(taskMapper.mapToEntity(task))
         );
